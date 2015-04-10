@@ -53,9 +53,14 @@ void mergeSort(vector<Signal>& vec) {
 
     Vec izq(vec.begin(), medio);
     Vec der(medio, vec.end());
-
     Vec result;
-    result.reserve(2*(izq.size()+der.size())+1); // O(n)
+
+    /**
+    * Se reservan para resultado (2*n)-1 lugares, ya que en peor caso mergeSort devuelve un vector del
+    * doble del original menos uno, esto se debe a que se necesitan en peor caso 3 frecuencias en resultado
+    * al comparar dos frecuencias.
+     */
+    result.reserve(2*(izq.size()+der.size())-1); // O(n)
 
     mergeSort(izq); //T(n/2)
     mergeSort(der); //T(n/2)
@@ -86,6 +91,10 @@ void merge(Vec& izq, Vec& der, Vec& result) {
     }
 }
 
+/**
+* Compara dos frecuencias donde primera tiene <= tiempo de inicio que segunda.
+* Si es necesario agrega alguna al resultado y aumenta izq_it y der_it.
+ */
 void mergeAux(Vec& primera, Vec& segunda, int& i, int& j,Vec& result) {
     if(primera[i].costo <= segunda[j].costo) {
         if(segunda[j].principio <= primera[i].fin) {
@@ -93,7 +102,7 @@ void mergeAux(Vec& primera, Vec& segunda, int& i, int& j,Vec& result) {
         }
         if(segunda[j].principio >= segunda[j].fin) {
             j++;
-        } else {
+        }else{
             result.push_back(primera[i]);
             i++;
         }
@@ -118,7 +127,6 @@ void mergeAux(Vec& primera, Vec& segunda, int& i, int& j,Vec& result) {
  * Recibe un vector y lo muestra por pantalla
  */
 void mostrar(const Vec& v) {
-    //cout << endl;
     int n = v.size();
     int finalCost = 0;
     for(int i = 0; i < n; ++i) {
