@@ -230,7 +230,7 @@ int aux_resolver(Tablero& p, Coord actual, int cant_caballos, Tablero& t_optimo,
         return c_optimo;
 
     //Poda caso Z
-    if (cant_caballos >= c_optimo)
+    if (cant_caballos > c_optimo)
         return c_optimo;
 
     //Encuentro proxima coordenada a rellenar
